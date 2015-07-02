@@ -21,8 +21,9 @@
     },
     "homepage": "https://github.com/PauloLuan/mongo-xml#readme",
     "dependencies": {
-        "xml2json": "^0.7.1",
+        "glob": "^5.0.12",
         "mongo-cursor-processing": "^1.0.0",
-        "mongodb": "latest"
+        "mongodb": "latest",
+        "xml2json": "^0.7.1"
     }
 }
