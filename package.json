@@ -24,6 +24,7 @@
         "glob": "^5.0.12",
         "mongo-cursor-processing": "^1.0.0",
         "mongodb": "latest",
+        "q": "^1.4.1",
         "xml2json": "^0.7.1"
     }
 }
