@@ -1,7 +1,7 @@
 var mongoProcessing = require('mongo-cursor-processing');
 var fs = require('fs');
 
-// db.states.ensureIndex( { "url": 1 }, { unique: true , dropDups: true} )
+// db.entities.ensureIndex( { "POI_Entity_ID": 1 }, { unique: true , dropDups: true} )
 
 // Retrieve
 var database;
