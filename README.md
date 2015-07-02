@@ -28,3 +28,18 @@ Install MongoDB:
 
     cd output
     mongoexport --db xmltest --collection entities --csv --fieldFile entities_fields.txt --out entities.csv
+
+## Usefull Mongodb commands:
+
+    show dbs
+    use entities //     switch between databases.
+    show collections
+
+    db.entities.findOne() //    shows the first document saved on database
+    db.entities.find().limit(10) //     limits the query results
+    db.entities.find({}, {algumaChaveDoJSON : 1}).limit(10) //     shows only the specified fields
+    db.entities.find({"uf": "SP"}).count() // count all entities from uf = sp
+
+    db.entities.distinct("algumaChaveDoJSON")
+
+    Object.keys(db.entities.findOne()) // shows the fields of a document.
