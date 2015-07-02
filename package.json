@@ -1,0 +1,28 @@
+{
+    "name": "mongo-xml",
+    "version": "1.0.0",
+    "description": "some tests on reading xml and saving it to mongodb",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PauloLuan/mongo-xml.git"
+    },
+    "keywords": [
+        "mongo",
+        "xml"
+    ],
+    "author": "PauloLuan",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/PauloLuan/mongo-xml/issues"
+    },
+    "homepage": "https://github.com/PauloLuan/mongo-xml#readme",
+    "dependencies": {
+        "xml2json": "^0.7.1",
+        "mongo-cursor-processing": "^1.0.0",
+        "mongodb": "latest"
+    }
+}
