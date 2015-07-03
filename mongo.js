@@ -10,15 +10,15 @@ mongoose.connect('mongodb://localhost/xmltest');
 
 var Entity = mongoose.model('Entity', {
     "Action": String,
-    "SupplierID": Number,
+    "SupplierID": String,
     "Identity.POI_Entity_ID": String,
     "Identity.Names.POI_Name.Language_Code": String,
     "Identity.Names.POI_Name.Type": String,
     "Identity.Names.POI_Name.Text": String,
     "Identity.Category_ID.Type": String,
-    "Identity.Category_ID.t": Number,
-    "Identity.Product_Type": Number,
-    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.Address_Number.House_Number": Number,
+    "Identity.Category_ID.t": String,
+    "Identity.Product_Type": String,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.Address_Number.House_Number": String,
     "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.Language_Code": String,
     "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.t": String,
     "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Attached": Boolean,
@@ -35,11 +35,11 @@ var Entity = mongoose.model('Entity', {
     "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.t": String,
     "Locations.Location.Address.ParsedAddress.PostalCode.NT_Postal": String,
     "Locations.Location.Address.ParsedAddress.CountryCode": String,
-    "Locations.Location.GeoPosition.Latitude": Number,
-    "Locations.Location.GeoPosition.Longitude": Number,
-    "Locations.Location.MapLinkID.LinkID": Number,
+    "Locations.Location.GeoPosition.Latitude": String,
+    "Locations.Location.GeoPosition.Longitude": String,
+    "Locations.Location.MapLinkID.LinkID": String,
     "Locations.Location.MapLinkID.Side_of_Street": String,
-    "Locations.Location.MapLinkID.Percent_from_RefNode": Number,
+    "Locations.Location.MapLinkID.Percent_from_RefNode": String,
     "Locations.Location.Confidence.Match_Level": String
 });
 

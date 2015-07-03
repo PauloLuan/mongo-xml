@@ -1,0 +1,241 @@
+{
+    "Action": "Add",
+    "SupplierID": 3,
+    "Identity": {
+        "POI_Entity_ID": "897725357_1",
+        "Names": {
+            "POI_Name": {
+                "Language_Code": "POR",
+                "Type": "Official",
+                "Text": "Pantaneira Correspondente Financeiro Ltda"
+            }
+        },
+        "Category_ID": {
+            "Type": "NT",
+            "t": 9500
+        },
+        "Product_Type": 2
+    },
+    "Locations": {
+        "Location": {
+            "Address": {
+                "ParsedAddress": {
+                    "ParsedStreetAddress": {
+                        "Address_Number": {
+                            "House_Number": 50
+                        },
+                        "ParsedStreetName": {
+                            "StreetName": {
+                                "Language_Code": "POR",
+                                "t": "Campos Sales"
+                            },
+                            "StreetType": {
+                                "Attached": false,
+                                "Before": true,
+                                "Language_Code": "POR",
+                                "t": "Rua"
+                            }
+                        }
+                    },
+                    "ParsedPlace": {
+                        "PlaceLevel2": {
+                            "Language_Code": "POR",
+                            "t": "Centro-Oeste"
+                        },
+                        "PlaceLevel3": {
+                            "Language_Code": "POR",
+                            "t": "Mato Grosso"
+                        },
+                        "PlaceLevel4": {
+                            "Language_Code": "POR",
+                            "t": "São José dos Quatro Marcos"
+                        },
+                        "PlaceLevel5": {
+                            "Language_Code": "POR",
+                            "t": "São José dos Quatro Marcos &amp;&amp;#35;40;Rural&amp;&amp;#35;41;"
+                        }
+                    },
+                    "PostalCode": {
+                        "NT_Postal": "78285-000"
+                    },
+                    "CountryCode": "BRA"
+                }
+            },
+            "GeoPosition": {
+                "Latitude": -15.61988,
+                "Longitude": -58.17245
+            },
+            "MapLinkID": {
+                "LinkID": 892515396,
+                "Side_of_Street": "L",
+                "Percent_from_RefNode": 52
+            },
+            "Confidence": {
+                "Match_Level": "houseNumber"
+            }
+        }
+    }
+}
+
+
+var Entity = mongoose.model('Entity', {
+            "Action": "Add",
+            "SupplierID": 3,
+            "Identity.POI_Entity_ID": "897725357_1",
+            "Identity.Names.POI_Name.Language_Code": "POR",
+            "Identity.Names.POI_Name.Type": "Official",
+            "Identity.Names.POI_Name.Text": "Pantaneira Correspondente Financeiro Ltda",
+            "Identity.Category_ID.Type": "NT",
+            "Identity.Category_ID.t": 9500,
+            "Identity.Product_Type": 2,
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.Address_Number.House_Number": 50,
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.Language_Code": "POR",
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.t": "Campos Sales",
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Attached": false,
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Before": true,
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Language_Code": "POR",
+            "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.t": "Rua",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.Language_Code": "POR",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.t": "Centro-Oeste",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.Language_Code": "POR",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.t": "Mato Grosso",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.Language_Code": "POR",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.t": "São José dos Quatro Marcos",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.Language_Code": "POR",
+            "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.t": "São José dos Quatro Marcos &amp;&amp;#35;40;Rural&amp;&amp;#35;41;",
+            "Locations.Location.Address.ParsedAddress.PostalCode.NT_Postal": "78285-000",
+            "Locations.Location.Address.ParsedAddress.CountryCode": "BRA",
+            "Locations.Location.GeoPosition.Latitude": -15.61988,
+            "Locations.Location.GeoPosition.Longitude": -58.17245,
+            "Locations.Location.MapLinkID.LinkID": 892515396,
+            "Locations.Location.MapLinkID.Side_of_Street": "L",
+            "Locations.Location.MapLinkID.Percent_from_RefNode": 52,
+            "Locations.Location.Confidence.Match_Level": "houseNumber"
+        },
+
+
+        var Entity = mongoose.model('Entity', {
+                    "Action": String,
+                    "SupplierID": 3,
+                    "Identity.POI_Entity_ID": String,
+                    "Identity.Names.POI_Name.Language_Code": String,
+                    "Identity.Names.POI_Name.Type": String,
+                    "Identity.Names.POI_Name.Text": String,
+                    "Identity.Category_ID.Type": String,
+                    "Identity.Category_ID.t": Number,
+                    "Identity.Product_Type": Number,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.Address_Number.House_Number": Number,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.Language_Code": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.t": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Attached": Boolean,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Before": Boolean,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Language_Code": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.t": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.Language_Code": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.t": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.Language_Code": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.t": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.Language_Code": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.t": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.Language_Code": String,
+                    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.t": String,
+                    "Locations.Location.Address.ParsedAddress.PostalCode.NT_Postal": String,
+                    "Locations.Location.Address.ParsedAddress.CountryCode": String,
+                    "Locations.Location.GeoPosition.Latitude": Number,
+                    "Locations.Location.GeoPosition.Longitude": Number,
+                    "Locations.Location.MapLinkID.LinkID": Number,
+                    "Locations.Location.MapLinkID.Side_of_Street": String,
+                    "Locations.Location.MapLinkID.Percent_from_RefNode": Number,
+                    "Locations.Location.Confidence.Match_Level": String
+                }
+
+
+                var Entity = mongoose.model('Entity', {
+                    "Action": String,
+                    "SupplierID": Number,
+                    "Identity": {
+                        "POI_Entity_ID": String,
+                        "Names": {
+                            "POI_Name": {
+                                "Language_Code": String,
+                                "Type": String,
+                                "Text": String
+                            }
+                        },
+                        "Category_ID": {
+                            "Type": String,
+                            "t": Number
+                        },
+                        "Product_Type": Number
+                    },
+                    "Locations": {
+                        "Location": {
+                            "Address": {
+                                "ParsedAddress": {
+                                    "ParsedStreetAddress": {
+                                        "Address_Number": {
+                                            "House_Number": Number
+                                        },
+                                        "ParsedStreetName": {
+                                            "StreetName": {
+                                                "Language_Code": String,
+                                                "t": String
+                                            },
+                                            "StreetType": {
+                                                "Attached": Boolean,
+                                                "Before": Boolean,
+                                                "Language_Code": String,
+                                                "t": String
+                                            }
+                                        }
+                                    },
+                                    "ParsedPlace": {
+                                        "PlaceLevel2": {
+                                            "Language_Code": String,
+                                            "t": String
+                                        },
+                                        "PlaceLevel3": {
+                                            "Language_Code": String,
+                                            "t": String
+                                        },
+                                        "PlaceLevel4": {
+                                            "Language_Code": String,
+                                            "t": String
+                                        },
+                                        "PlaceLevel5": {
+                                            "Language_Code": String,
+                                            "t": String
+                                        }
+                                    },
+                                    "PostalCode": {
+                                        "NT_Postal": String
+                                    },
+                                    "CountryCode": String
+                                }
+                            },
+                            "GeoPosition": {
+                                "Latitude": Number,
+                                "Longitude": Number
+                            },
+                            "MapLinkID": {
+                                "LinkID": Number,
+                                "Side_of_Street": String,
+                                "Percent_from_RefNode": Number
+                            },
+                            "Confidence": {
+                                "Match_Level": String
+                            }
+                        }
+                    },
+                    "Contacts": {
+                        "Contact": {
+                            "Type": String,
+                            "Language_Code": String,
+                            "Number": {
+                                "Type": String,
+                                "Preferred": String,
+                                "t": Number
+                            }
+                        }
+                    }
+                });

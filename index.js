@@ -17,26 +17,40 @@ var parser = require('xml2json'),
     colors = require('colors'),
     self;
 
+function makeIterator(array) {
+    var nextIndex = 0;
+
+    return {
+        next: function() {
+            return nextIndex < array.length ? {
+                value: array[nextIndex++],
+                done: false
+            } : {
+                done: true
+            };
+        }
+    }
+};
+
 module.exports = {
 
     init: function() {
         self = this;
-        var inputPath = "test/input";
+        //var inputPath = "test/input";
+        var inputPath = "/media/inova/DADOS/sources/xmltocsv/bronks/BRA/";
         var deferred = Q.defer();
 
-        Mongo.initialize_db(function() {
-            self.getAllXmlFiles(inputPath)
-                .then(function(files) {
-                    self.proccessFiles(files);
-                })
-                .then(function() {
-                    deferred.resolve();
-                })
-                .catch(function(error) {
-                    console.log(error);
-                    deferred.reject(error);
-                });
-        });
+        self.getAllXmlFiles(inputPath)
+            .then(function(files) {
+                self.proccessFiles(files);
+            })
+            .then(function() {
+                deferred.resolve();
+            })
+            .catch(function(error) {
+                console.log(error);
+                deferred.reject(error);
+            });
 
         return deferred.promise;
     },
@@ -44,18 +58,37 @@ module.exports = {
     proccessFiles: function(files) {
         console.log(('Preparing ' + files.length + ' files to process.').yellow);
 
-        _.forEach(files, function(xmlPath, key) {
+        var cursor = makeIterator(files);
+
+        function process(cursor) {
+            var value = cursor.next();
+
+            var xmlPath = value.value;
             assert.equal(fs.existsSync(xmlPath), true, 'path should exist'.red);
             console.log(('Processing: ' + xmlPath).yellow);
             var xml = fs.readFileSync(xmlPath).toString('utf-8');
             var content = parser.toJson(xml); //returns a string containing the JSON structure by default
-            //content = content.replace(/[^\w\s]/gi, '')
             content = content.replace(/\$/g, "");
             var json = JSON.parse(content);
             var arrayToSave = json.DeliveryPackage.POI;
 
-            Mongo.save_entity(arrayToSave);
-            console.log((xmlPath + ' has been finished!').green);
+            Mongo.save(arrayToSave)
+                .then(function() {
+                    console.log((xmlPath + ' has been finished!').green);
+
+                    if (!value.done) {
+                        process(cursor);
+                    }
+                })
+                .catch(function(error) {
+                    console.log("Erro :(", error);
+                });
+        };
+
+        process(cursor);
+
+        _.forEach(files, function(xmlPath, key) {
+
         });
     },
 
