@@ -6,7 +6,7 @@ var module = require('../mongo'),
 
 describe('#save_entity', function() {
 
-    it('should save an entity', function(done) {
+    it('should save, find and delete an entity', function(done) {
 
         var json = {
             "Action": "Add",
@@ -43,13 +43,36 @@ describe('#save_entity', function() {
             "Locations.Location.Confidence.Match_Level": "houseNumber"
         };
 
-        module.save(json).then(function(success) {
-                done();
-            })
-            .catch(function(error) {
-                console.log("erro: ", error);
-                done();
-            });
+        module.save([json])
+
+        .then(function(result) {
+            return result;
+        })
+
+        .then(function(result) {
+            var searchJson = {
+                _id: result._id
+            };
+
+            module.findOne(searchJson)
+                .then(function(findResult) {
+                    var toDelete = {
+                        _id: findResult._id
+                    };
+
+                    module.delete(toDelete)
+                        .then(function() {
+                            done();
+                        })
+                        .catch(function(error) {
+                            done(error);
+                        });
+                });
+        })
+
+        .catch(function(error) {
+            done(error);
+        });
     });
 
 });

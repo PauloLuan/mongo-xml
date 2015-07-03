@@ -21,11 +21,13 @@
     },
     "homepage": "https://github.com/PauloLuan/mongo-xml#readme",
     "dependencies": {
+        "colors": "^1.1.2",
         "glob": "^5.0.12",
         "lodash": "^3.10.0",
-        "q": "^1.4.1",
         "mongo-cursor-processing": "^1.0.0",
         "mongodb": "latest",
+        "mongoose": "^4.0.6",
+        "q": "^1.4.1",
         "xml2json": "^0.7.1"
     },
     "devDependencies": {
