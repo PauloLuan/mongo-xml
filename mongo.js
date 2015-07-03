@@ -2,7 +2,9 @@
 
 var mongoose = require('mongoose'),
     Q = require('q'),
-    fs = require('fs');
+    fs = require('fs'),
+    colors = require('colors');
+
 
 mongoose.connect('mongodb://localhost/xmltest');
 
@@ -60,8 +62,8 @@ JSON.flatten = function(data) {
             }
             if (isEmpty && prop) {
                 var split_prop = prop.split('.').pop();
-                result[split_prop] = {};
-                //result[prop] = {};
+                //result[split_prop] = {};
+                result[prop] = {};
             }
         }
     }
@@ -80,11 +82,12 @@ module.exports = {
                 var ent = JSON.flatten(entities[i]);
                 var entityObj = new Entity(ent);
 
-                entityObj.save(function(error) {
+                entityObj.save(function(error, result) {
                     if (error) {
                         deferred.reject(error);
                     }
-                    deferred.resolve();
+
+                    deferred.resolve(result);
                 });
             };
 
@@ -92,13 +95,41 @@ module.exports = {
 
             var entityObj = new Entity(JSON.flatten(entities));
 
-            entityObj.save(function(error) {
+            entityObj.save(function(error, result) {
                 if (error) {
                     deferred.reject(error);
                 }
-                deferred.resolve();
+
+                deferred.resolve(result);
             });
         }
+
+        return deferred.promise;
+    },
+
+    delete: function(json) {
+        var deferred = Q.defer();
+
+        Entity.remove(json, function(error) {
+            if (error) {
+                deferred.reject(error);
+            }
+            deferred.resolve(true);
+        });
+
+        return deferred.promise;
+    },
+
+    findOne: function(json) {
+        var deferred = Q.defer();
+
+        Entity.findOne(json, function(error, result) {
+            if (error) {
+                deferred.reject(error);
+            }
+
+            deferred.resolve(result);
+        });
 
         return deferred.promise;
     }
