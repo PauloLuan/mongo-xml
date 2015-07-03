@@ -1,72 +1,105 @@
-var mongoProcessing = require('mongo-cursor-processing');
-var fs = require('fs');
+// db.entities.ensureIndex( { "Identity.POI_Entity_ID": 1 }, { unique: true , dropDups: true} )
 
-// db.entities.ensureIndex( { "POI_Entity_ID": 1 }, { unique: true , dropDups: true} )
+var mongoose = require('mongoose'),
+    Q = require('q'),
+    fs = require('fs');
 
-// Retrieve
-var database;
+mongoose.connect('mongodb://localhost/xmltest');
 
-exports.initialize_db = function(callback) {
-    var MongoClient = require('mongodb').MongoClient;
+var Entity = mongoose.model('Entity', {
+    "Action": String,
+    "SupplierID": Number,
+    "Identity.POI_Entity_ID": String,
+    "Identity.Names.POI_Name.Language_Code": String,
+    "Identity.Names.POI_Name.Type": String,
+    "Identity.Names.POI_Name.Text": String,
+    "Identity.Category_ID.Type": String,
+    "Identity.Category_ID.t": Number,
+    "Identity.Product_Type": Number,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.Address_Number.House_Number": Number,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.Language_Code": String,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetName.t": String,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Attached": Boolean,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Before": Boolean,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Language_Code": String,
+    "Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.t": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.Language_Code": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.t": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.Language_Code": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.t": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.Language_Code": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.t": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.Language_Code": String,
+    "Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.t": String,
+    "Locations.Location.Address.ParsedAddress.PostalCode.NT_Postal": String,
+    "Locations.Location.Address.ParsedAddress.CountryCode": String,
+    "Locations.Location.GeoPosition.Latitude": Number,
+    "Locations.Location.GeoPosition.Longitude": Number,
+    "Locations.Location.MapLinkID.LinkID": Number,
+    "Locations.Location.MapLinkID.Side_of_Street": String,
+    "Locations.Location.MapLinkID.Percent_from_RefNode": Number,
+    "Locations.Location.Confidence.Match_Level": String
+});
 
-    MongoClient.connect("mongodb://localhost:27017/xmltest", function(err, db) {
-        if (err) {
-            return console.dir(err);
-        }
+JSON.flatten = function(data) {
+    var result = {};
 
-        database = db;
-
-        callback();
-    });
-};
-
-function save_to_db(json, collection_name) {
-    if (json) {
-        // Connect to the db
-        var collection = database.collection(collection_name);
-
-        collection.insert(json, function(err, inserted) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("salvo com sucesso!");
-                json = null;
+    function recurse(cur, prop) {
+        if (Object(cur) !== cur) {
+            result[prop] = cur;
+        } else if (Array.isArray(cur)) {
+            for (var i = 0, l = cur.length; i < l; i++)
+                recurse(cur[i], prop + "[" + i + "]");
+            if (l == 0)
+                result[prop] = [];
+        } else {
+            var isEmpty = true;
+            for (var p in cur) {
+                isEmpty = false;
+                recurse(cur[p], prop ? prop + "." + p : p);
             }
-
-            collection = null;
-        });
+            if (isEmpty && prop) {
+                var split_prop = prop.split('.').pop();
+                result[split_prop] = {};
+                //result[prop] = {};
+            }
+        }
     }
+    recurse(data, "");
+    return result;
 }
 
+module.exports = {
+    save: function(entities) {
+        var deferred = Q.defer();
+        var isSaved = false;
 
-exports.save_entity = function(entity) {
-    var collection_name = 'entities';
+        if (Object.prototype.toString.call(entities) === '[object Array]') {
 
-    if (Object.prototype.toString.call(entity) === '[object Array]') {
-        for (var i = entity.length - 1; i >= 0; i--) {
-            save_to_db(entity[i], collection_name);
-        };
-    } else {
-        save_to_db(entity, collection_name);
-    }
-};
+            for (var i = entities.length - 1; i >= 0; i--) {
+                var ent = JSON.flatten(entities[i]);
+                var entityObj = new Entity(ent);
 
-exports.delete_from_db = function(json, collection_name) {
-    var collection = database.collection(collection_name);
+                entityObj.save(function(error) {
+                    if (error) {
+                        deferred.reject(error);
+                    }
+                    deferred.resolve();
+                });
+            };
 
-    collection.delete(json, function(error, inserted) {
-        if (error) {
-            console.log(error);
+        } else {
+
+            var entityObj = new Entity(JSON.flatten(entities));
+
+            entityObj.save(function(error) {
+                if (error) {
+                    deferred.reject(error);
+                }
+                deferred.resolve();
+            });
         }
-    });
-};
 
-exports.queryByObject = function(json, collection_name, callback) {
-    var collection = database.collection(collection_name);
-    collection.findOne(json, function(err, result_json) {
-        callback(result_json);
-
-        result_json = null;
-        collection = null;
-    });
-};
+        return deferred.promise;
+    }
+}
