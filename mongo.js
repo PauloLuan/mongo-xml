@@ -84,13 +84,12 @@ module.exports = {
 
                 entityObj.save(function(error, result) {
                     if (error) {
-                        deferred.reject(error);
+                        console.log(error);
                     }
 
-                    deferred.resolve(result);
+                    deferred.resolve();
                 });
             };
-
         } else {
 
             var entityObj = new Entity(JSON.flatten(entities));
@@ -122,8 +121,23 @@ module.exports = {
 
     findOne: function(json) {
         var deferred = Q.defer();
+        var inputJson = json || {};
 
-        Entity.findOne(json, function(error, result) {
+        Entity.findOne(inputJson, function(error, result) {
+            if (error) {
+                deferred.reject(error);
+            }
+
+            deferred.resolve(result);
+        });
+
+        return deferred.promise;
+    },
+
+    find: function() {
+        var deferred = Q.defer();
+
+        Entity.find({}, function(error, result) {
             if (error) {
                 deferred.reject(error);
             }

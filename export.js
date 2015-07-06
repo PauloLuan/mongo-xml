@@ -1,25 +1,36 @@
-exports.export_to_json_file = function(json) {
-    fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err) {
-        console.log('File successfully written! - Check your project directory for the output.json file');
-    });
-};
+var mongoProcessing = require('mongo-cursor-processing'),
+    mongo = require('./mongo'),
+    fs = require('fs'),
+    _ = require('lodash');
 
-exports.exportToCSV = function() {
-    var processItem = function(entity_doc, done) {
-        appendTextToCsv(convertToCSV([entity_doc]), entity_doc, done);
-    };
-
-    var entities_collection = database.collection('entities');
-
-    entities_collection.find({}, function(err, result_cursor) {
-        mongoProcessing(result_cursor, processItem, 1, function(err) {
-            if (err) {
-                console.error('on noes, an error', err);
-                process.exit(1);
-            }
+var self = {
+    export_to_json_file: function(json) {
+        fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err) {
+            console.log('File successfully written! - Check your project directory for the output.json file');
         });
-    });
+    },
+
+    exportToCSV: function() {
+        var processItem = function(entity_doc, done) {
+            delete entity_doc._id;
+            var inlineJson = JSON.flatten(entity_doc);
+            var textJson = convertToCSV([inlineJson]);
+            appendTextToCsv(textJson, inlineJson, done);
+        };
+
+        var count = 0;
+
+        mongo.findOne()
+            .then(function(result_cursor) {
+                processItem(result_cursor._doc);
+            })
+            .catch(function(error) {
+                console.log('Error during data export ', error);
+            });
+    }
 };
+
+module.exports = self;
 
 function convertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
@@ -31,8 +42,9 @@ function convertToCSV(objArray) {
 
         for (var index in array[i]) {
             if (line !== '') line += ',';
-
-            line += array[i][index];
+            var temp = array[i][index];
+            if (_.isEmpty(temp)) temp = "";
+            line += temp;
         }
 
         str += line;
@@ -41,23 +53,19 @@ function convertToCSV(objArray) {
     return str;
 }
 
-function appendTextToCsv(text, entity_doc, done) {
-    if (entity_doc.UF) {
-        var csv_path = 'output/' + entity_doc.UF + '.csv';
+var appendTextToCsv = function(text, entity_doc, done) {
+    var csv_path = 'output/output_all.csv';
 
-        fs.exists(csv_path, function(exists) {
-            if (!exists) {
-                createColumnNames(csv_path, entity_doc, function() {
-                    appendText(csv_path, text, done);
-                });
-            } else {
+    fs.exists(csv_path, function(exists) {
+        if (!exists) {
+            createColumnNames(csv_path, entity_doc, function() {
                 appendText(csv_path, text, done);
-            }
-        });
-    } else {
-        done();
-    }
-}
+            });
+        } else {
+            appendText(csv_path, text, done);
+        }
+    });
+};
 
 var appendText = function(csv_path, text, done) {
     fs.appendFile(csv_path, text, function(err) {
@@ -66,13 +74,12 @@ var appendText = function(csv_path, text, done) {
         }
 
         console.log(csv_path);
-
-        done();
     });
 };
 
-function createColumnNames(csvPath, entity_doc, callback) {
+var createColumnNames = function(csvPath, entity_doc, callback) {
     var entity_keys = Object.keys(entity_doc);
-    var text = entity_keys;
-    return appendText(csvPath, text, callback);
+    return appendText(csvPath, entity_keys, callback);
 }
+
+self.exportToCSV();

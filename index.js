@@ -77,7 +77,7 @@ module.exports = {
                     console.log((xmlPath + ' has been finished!').green);
 
                     if (!value.done) {
-                        process(cursor);
+                        return process(cursor);
                     }
                 })
                 .catch(function(error) {
@@ -86,10 +86,6 @@ module.exports = {
         };
 
         process(cursor);
-
-        _.forEach(files, function(xmlPath, key) {
-
-        });
     },
 
 
