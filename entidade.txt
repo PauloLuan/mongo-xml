@@ -239,3 +239,25 @@ var Entity = mongoose.model('Entity', {
                         }
                     }
                 });
+
+
+to delete:
+
+Action
+SupplierID
+_id.str
+Locations.Location.Confidence.Match_Level
+Locations.Location.MapLinkID.Percent_from_RefNode
+Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel5.Language_Code
+Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel4.Language_Code
+Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.Language_Code
+Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel3.t
+Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.Language_Code
+Locations.Location.Address.ParsedAddress.ParsedPlace.PlaceLevel2.t
+Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Attached
+Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Before
+Locations.Location.Address.ParsedAddress.ParsedStreetAddress.ParsedStreetName.StreetType.Language_Code
+Identity.POI_Entity_ID
+Identity.Names.POI_Name.Language_Code
+Identity.Names.POI_Name.Type
+__v
