@@ -1,7 +1,10 @@
 var mongoProcessing = require('mongo-cursor-processing'),
     mongo = require('./mongo'),
     fs = require('fs'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    colors = require('colors');
+
+var count = 0;
 
 var self = {
     export_to_json_file: function(json) {
@@ -18,15 +21,27 @@ var self = {
             appendTextToCsv(textJson, inlineJson, done);
         };
 
-        var count = 0;
+        mongo.count(function(total) {
+            var stream = mongo.find();
 
-        mongo.findOne()
-            .then(function(result_cursor) {
-                processItem(result_cursor._doc);
-            })
-            .catch(function(error) {
-                console.log('Error during data export ', error);
+            stream.on('data', function(doc) {
+                stream.pause();
+                var message = count + " of " + total;
+                console.log(message.green);
+
+                try {
+                    processItem(doc._doc, function(err) {
+                        if (err) console.log(err);
+                        stream.resume();
+                        count++;
+                    });
+                } catch (e) {
+                    console.log(e);
+                    stream.resume();
+                    count++;
+                }
             });
+        });
     }
 };
 
@@ -70,10 +85,10 @@ var appendTextToCsv = function(text, entity_doc, done) {
 var appendText = function(csv_path, text, done) {
     fs.appendFile(csv_path, text, function(err) {
         if (err) {
-            console.log(err);
+            done(err);
         }
 
-        console.log(csv_path);
+        done();
     });
 };
 

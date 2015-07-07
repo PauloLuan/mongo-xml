@@ -23,6 +23,7 @@
     "dependencies": {
         "colors": "^1.1.2",
         "glob": "^5.0.12",
+        "json2csv": "^2.4.3",
         "lodash": "^3.10.0",
         "mongo-cursor-processing": "^1.0.0",
         "mongodb": "latest",

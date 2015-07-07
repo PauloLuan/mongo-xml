@@ -135,16 +135,14 @@ module.exports = {
     },
 
     find: function() {
-        var deferred = Q.defer();
+        var stream = Entity.find({}).stream();
+        return stream;
+    },
 
-        Entity.find({}, function(error, result) {
-            if (error) {
-                deferred.reject(error);
-            }
-
-            deferred.resolve(result);
+    count: function(callback) {
+        Entity.count({}, function(err, count) {
+            callback(count);
         });
-
-        return deferred.promise;
     }
+
 }
