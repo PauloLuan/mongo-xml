@@ -27,7 +27,7 @@
         "lodash": "^3.10.0",
         "mongo-cursor-processing": "^1.0.0",
         "mongodb": "latest",
-        "mongoose": "^4.0.6",
+        "mongoose": "^5.7.6",
         "q": "^1.4.1",
         "xml2json": "^0.7.1"
     },
